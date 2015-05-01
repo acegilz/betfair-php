@@ -204,6 +204,30 @@ $marketFilter = MarketFilter::create()
 
 Read carefully the Betfair documentation API to use the proper properties with these objects.
 
+Placing Bets (Query the Betfair API without the helpers)
+------------
+
+While the Place Bets helper is not concluded, you can use this example code to directly connect with betfair API and place your bets:
+
+```php
+public function placeOrder($marketId, $side, $selectionId, $size, $price)
+{
+
+    $betfair = BetfairFactory::createBetfair('appkey', 'user', 'pass');
+
+
+    $params = Param::create();
+    $params->marketId = $marketId;
+    $params->instructions = [['selectionId' => $selectionId, 'side' => $side, 'orderType' => 'LIMIT', 'limitOrder' => ['size' => $size, 'price' => $price, 'persistenceType' =>'LAPSE']]];
+    $params->customerRef = 'fdsdf';
+
+    $placeOrders = $betfair->api($params, 'placeOrders');
+
+
+}
+
+```
+
 How to contribute
 ===========
 
